@@ -10,7 +10,15 @@ const SEED_CATEGORIES = require('../data/seedCategory.json')
 db.on('open', async () => {
   try {
     console.log('start creating category data... ')
-    await Category.create(SEED_CATEGORIES)
+    const createdCategory = []
+    for (const seedCategory of SEED_CATEGORIES) {
+      const { name } = seedCategory
+      const category = await Category.findOne({ name })
+      if (!category) {
+        createdCategory.push(seedCategory)
+      }
+    }
+    await Category.create(createdCategory)
     console.log('done.')
     process.exit()
   } 

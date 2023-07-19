@@ -43,6 +43,7 @@ db.on('open', async () => {
           } else {
             // 若record已存在 更新其userId
             record.userId = userId
+            record.categoryId = category._id
             await record.save()
           }
         }
@@ -62,6 +63,7 @@ db.on('open', async () => {
           } else { 
             // 若record已存在 更新其userId
             record.userId = userId
+            record.categoryId = category._id
             await record.save()
           }
         }
