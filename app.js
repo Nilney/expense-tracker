@@ -7,6 +7,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 const routes = require('./routes')
 
+require('./config/mongoose')
+
 const app = express()
 const PORT = process.env.PORT
 
