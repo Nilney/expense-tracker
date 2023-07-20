@@ -1,3 +1,55 @@
-<div class="container">
-  <h2>index page</h2>
+<div class="mt-5 container col-8">
+  <div class="row">
+    <div class="col-2 d-flex align-items-center justify-content-center">
+      篩選
+    </div>
+    <div class="col-10">
+      <form action="/records/filter" method="POST">
+        <select class="form-select" aria-label="Default select example" name="sort" onchange="this.form.submit()">
+          <option selected>類別</option>
+          {{#each categories}}
+          <option value="{{this._id}}">{{this.name}}</option>
+          {{/each}}
+        </select>
+
+      </form>
+    </div>
+  </div>
+  
+  <div class="mt-5">
+    <div class="row">
+      <div class="col-2 d-flex align-items-center justify-content-center">
+        總金額
+      </div>
+      <div class="col-10">
+      </div>
+  </div>
+
+  <div class="row mt-5">
+    <ul class="list-group">
+      {{#each records}}
+      <li class="list-group-item">
+        <div class="row align-items-center">
+          <div class="col-md-2 text-center">
+            {{{this.img}}}
+          </div>
+          <div class="col-md-4 d-flex flex-column">
+            <div>{{this.name}}</div>
+            <div>{{this.date}}</div>
+          </div>
+          <div class="col-md-3 text-end">
+            {{{this.amount}}}
+          </div>
+          <div class="col-md-3 d-flex justify-content-center">
+            <a href="/records/{{this._id}}/edit" class="btn btn-success mx-1">修改</a>
+            <a href="/records/{{this._id}}/delete" class="btn btn-danger mx-1">刪除</a>
+          </div>
+        </div>
+      </li>
+      {{/each}}
+    </ul>
+    <div class="mt-5 d-grid gap-2 col-4 mx-auto">
+      <a href="/records/new" class="btn btn-primary">新增支出</a>
+    </div>
+  </div>
 </div>

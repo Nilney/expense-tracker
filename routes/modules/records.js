@@ -11,4 +11,9 @@ router.get('/edit', (req, res) => {
   res.render('edit')
 })
 
+// 類別篩選
+router.post('/filter', (req, res) => {
+  
+})
+
 module.exports = router

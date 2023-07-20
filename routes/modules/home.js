@@ -7,7 +7,18 @@ const Category = require('../../models/category')
 
 // 首頁
 router.get('/', async (req, res) => {
-  res.render('index')
+  try {
+    const records = await Record.find().lean().sort({ date: 'asc'})
+    for (const record of records) {
+      const category = await Category.findOne({ _id: record.categoryId }).lean()
+      record.img = category.image
+      record.date = moment(record.date).format('YYYY/MM/DD')
+    }
+    const categories = await Category.find().lean()
+    res.render('index', { records, categories })
+  } catch (error) {
+    console.log(error)
+  } 
 })
 
 module.exports = router
