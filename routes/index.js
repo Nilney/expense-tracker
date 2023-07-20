@@ -1,19 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-// 首頁
-router.get('/', (req, res) => {
-  res.render('index')
-})
+const home = require('./modules/home')
+const records = require('./modules/records')
 
-// 新增頁面
-router.get('/records/new', (req, res) => {
-  res.render('new')
-})
-
-// 編輯頁面
-router.get('/records/edit', (req, res) => {
-  res.render('edit')
-})
+router.use('/records', records)
+router.use('/', home)
 
 module.exports = router
