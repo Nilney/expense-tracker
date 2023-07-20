@@ -1,0 +1,4 @@
+.red-spot::after {
+  content: '*';
+  color: #D9534F;
+}

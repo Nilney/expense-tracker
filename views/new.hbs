@@ -1,3 +1,42 @@
-<div class="container">
-  <h2>new page</h2>
+<div class="mt-5 container col-6 container">
+  <div class="row">
+    <h3 class="text-center mb-5">請輸入你的支出</h3>
+    {{> message}}
+    <p class="text-danger">*必填欄位</p>
+    <form action="/records" method="POST">
+
+      <div class="mb-3">
+        <label for="name" class="form-label red-spot">名稱</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="請輸入支出名稱 (30字內)" maxlength="30" value="{{name}}">
+      </div>
+
+      <div class="mb-3">
+        <label for="date" class="form-label red-spot">日期</label>
+        <input type="date" class="form-control" id="date" class="date" name="date" value="{{date}}">
+      </div>
+
+      <div class="mb-3">
+        <label for="category" class="form-label red-spot">類別</label>
+        <select id="category" class="form-control" placeholder="請選擇" name="category">
+          <option value="">請選擇</option>
+          <option value="家居物業" {{#if_eq category "家居物業"}}selected{{/if_eq}}>家居物業</option>
+          <option value="交通出行" {{#if_eq category "交通出行"}}selected{{/if_eq}}>交通出行</option>
+          <option value="休閒娛樂" {{#if_eq category "休閒娛樂"}}selected{{/if_eq}}>休閒娛樂</option>
+          <option value="餐飲食品" {{#if_eq category "餐飲食品"}}selected{{/if_eq}}>餐飲食品</option>
+          <option value="其他" {{#if_eq category "其他"}}selected{{/if_eq}}>其他</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="amount" class="form-label red-spot">金額</label>
+        <input type="number" class="form-control" id="amount" name="amount" min="1" max="100000000" placeholder="請輸入１元以上、１億元以下的支出金額" value="{{amount}}">
+      </div>
+
+      <div class="mt-5 d-grid gap-2 col-4 mx-auto">
+        <button class="btn btn-primary" type="submit">新增支出</button>
+      </div>
+    </form>
+  </div>
 </div>
+
+

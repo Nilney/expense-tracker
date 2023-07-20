@@ -6,9 +6,34 @@ const router = express.Router()
 const Record = require('../../models/record')
 const Category = require('../../models/category')
 
+// 協助於handlebars判別
+Handlebars.registerHelper('if_eq', (selection, value, options) => {
+  const stringValue = String(value)
+  if (selection === stringValue) {
+    return options.fn(this)
+  }
+  return options.inverse(this)
+})
+
 // 新增頁面
 router.get('/new', (req, res) => {
   res.render('new')
+})
+
+router.post('/', async (req, res) => {
+  try {
+    const { name, date, category, amount } = req.body
+    const errors = []
+    if (!name || !date || !category || !amount) {
+      errors.push({ message: '每個欄位都必須輸入'})
+      return res.render('new', { name, date, category, amount, errors })
+    }
+    await Record.create({ name, date, category, amount })
+    res.redirect('/')
+  }
+  catch (error) {
+    console.log(error)
+  }
 })
 
 // 編輯頁面
@@ -17,16 +42,6 @@ router.get('/edit', (req, res) => {
 })
 
 // 類別篩選
-// 協助於handlebars判別
-Handlebars.registerHelper('if_eq', function (selection, value, options) {
-  const stringValue = String(value)
-  if (selection === stringValue) {
-    return options.fn(this)
-  } else {
-    return options.inverse(this)
-  }
-})
-
 router.post('/filter', async (req, res) => {
   try {
     const categoryId = req.body.filter
