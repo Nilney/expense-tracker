@@ -37,8 +37,40 @@ router.post('/', async (req, res) => {
 })
 
 // 編輯頁面
-router.get('/edit', (req, res) => {
-  res.render('edit')
+router.get('/:record_id/edit', async (req, res) => {
+  try {
+    const _id = req.params.record_id
+    const record = await Record.findOne({ _id }).lean()
+    const category = await Category.findOne({ _id: record.categoryId })
+    record.date = moment(record.date).format('YYYY-MM-DD')
+    res.render('edit', { record, category: category.name })
+  }
+  catch (error) {
+    console.log(error)
+  }
+})
+
+router.put('/:record_id', async (req, res) => {
+  try {
+    const _id = req.params.record_id
+    const { name, date, categoryName, amount } = req.body
+    const errors = []
+    if (!name || !date || !categoryName || !amount) {
+      errors.push({ message: '每個欄位都必須輸入' })
+      return res.render('new', { name, date, categoryName, amount, errors })
+    }
+    const category = await Category.findOne({ name: categoryName }).lean()
+    await Record.updateOne({ _id }, {
+      name,
+      date,
+      categoryId: category._id,
+      amount
+    })
+    res.redirect('/')
+  }
+  catch (error) {
+    console.log(error)
+  }
 })
 
 // 類別篩選
