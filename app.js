@@ -9,6 +9,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const routes = require('./routes')
+const usePassport = require('./config/passport')
 
 require('./config/mongoose')
 
@@ -34,9 +35,11 @@ app.use(flash())
 app.use((req, res, next) => {
   res.locals.success_msg = req.flash('success_msg')
   res.locals.warning_msg = req.flash('warning_msg')
+  res.locals.login_err = req.flash('login_err')
   next()
 })
 
+usePassport(app)
 app.use(routes)
 
 app.listen(PORT, () => {

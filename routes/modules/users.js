@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const passport = require('passport')
 const bcrypt = require('bcryptjs')
 
 const User = require('../../models/user')
@@ -7,6 +8,21 @@ const User = require('../../models/user')
 router.get('/login', (req, res) => {
   res.render('login')
 })
+
+router.post('/login',
+  (req, res, next )=> {
+    const {email, password } = req.body
+    if (!email || !passport) {
+      req.flash('login_err', '請輸入 Email 與 Password')
+      return res.redirect('/users/login')
+    }
+    next()
+  },
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/users/login'
+  })
+)
 
 router.get('/register', (req, res) => {
   res.render('register')
@@ -27,7 +43,7 @@ router.post('/register', (req, res) => {
       errors, name, email, password, confirmPassword
     })
   }
-  
+
   // 無錯誤就進行註冊程序
   User.findOne({ email }).then(user => {
     // 檢查email是否已註冊
