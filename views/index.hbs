@@ -20,8 +20,8 @@
       <div class="col-2 d-flex align-items-center justify-content-center">
         總金額
       </div>
-      <div class="col-10">
-      </div>
+      <div class="col-10"></div>
+    </div>
   </div>
 
   <div class="row mt-5">
@@ -41,7 +41,9 @@
           </div>
           <div class="col-md-3 d-flex justify-content-center">
             <a href="/records/{{this._id}}/edit" class="btn btn-success mx-1">修改</a>
-            <a href="/records/{{this._id}}/delete" class="btn btn-danger mx-1">刪除</a>
+            <form action="/records/{{this._id}}?_method=DELETE" method="POST" id="deleteForm-{{this._id}}">
+              <button class="btn btn-danger mx-1 deleteButton" type="submit" data-id="{{this._id}}">刪除</button>
+            </form>
           </div>
         </div>
       </li>
@@ -52,3 +54,27 @@
     </div>
   </div>
 </div>
+
+<script>
+  // 刪除資料確認框
+  const deleteButtons = document.querySelectorAll('.deleteButton')
+  deleteButtons.forEach(deleteButton => {
+    deleteButton.addEventListener('click', event => {
+      event.preventDefault()
+      swal({
+        title: '確定要刪除？',
+        text: '一但刪除，這筆支出項目將無法復原！',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          const recordId = event.target.dataset.id
+          const deleteForm = document.querySelector(`#deleteForm-${recordId}`)
+          return deleteForm.submit()
+        }
+      })
+    })
+  })
+</script>

@@ -20,6 +20,7 @@ router.get('/new', (req, res) => {
   res.render('new')
 })
 
+// 新增record
 router.post('/', async (req, res) => {
   try {
     const { name, date, categoryName, amount } = req.body
@@ -56,6 +57,7 @@ router.get('/:record_id/edit', async (req, res) => {
   }
 })
 
+// 編輯record
 router.put('/:record_id', async (req, res) => {
   try {
     const _id = req.params.record_id
@@ -72,6 +74,18 @@ router.put('/:record_id', async (req, res) => {
       categoryId: category._id,
       amount
     })
+    res.redirect('/')
+  }
+  catch (error) {
+    console.log(error)
+  }
+})
+
+// 刪除record
+router.delete('/:record_id', async (req, res) => {
+  try {
+    const _id = req.params.record_id
+    await Record.deleteOne({ _id })
     res.redirect('/')
   }
   catch (error) {
