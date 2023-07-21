@@ -2,3 +2,13 @@
   content: '*';
   color: #D9534F;
 }
+
+.totalAmountField {
+  border-radius: 10px;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.totalAmount {
+  font-size: 40px;
+}

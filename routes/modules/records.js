@@ -107,12 +107,14 @@ router.post('/filter', async (req, res) => {
     
     const category = await Category.findOne({ _id: categoryId }).lean()
     const records = await Record.find({ categoryId, userId }).lean().sort({ date: 'asc' })
+    let totalAmount = 0
     for (const record of records) {
       record.img = category.image
       record.date = moment(record.date).format('YYYY/MM/DD')
+      totalAmount += record.amount
     }
     const categories = await Category.find().lean()
-    res.render('index', { records, categories, categoryId })
+    res.render('index', { records, categories, categoryId, totalAmount })
   }
   catch (error) {
     console.log(error)
