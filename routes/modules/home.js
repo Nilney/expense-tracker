@@ -8,7 +8,8 @@ const Category = require('../../models/category')
 // 首頁
 router.get('/', async (req, res) => {
   try {
-    const records = await Record.find().lean().sort({ date: 'asc'})
+    const userId = req.user._id
+    const records = await Record.find({ userId }).lean().sort({ date: 'asc'})
     for (const record of records) {
       const category = await Category.findOne({ _id: record.categoryId }).lean()
       record.img = category.image

@@ -23,6 +23,7 @@ router.get('/new', (req, res) => {
 // 新增record
 router.post('/', async (req, res) => {
   try {
+    const userId = req.user._id
     const { name, date, categoryName, amount } = req.body
     const errors = []
     if (!name || !date || !categoryName || !amount) {
@@ -34,7 +35,8 @@ router.post('/', async (req, res) => {
       name,
       date,
       categoryId: category._id,
-      amount
+      amount,
+      userId
     })
     res.redirect('/')
   }
@@ -46,8 +48,9 @@ router.post('/', async (req, res) => {
 // 編輯頁面
 router.get('/:record_id/edit', async (req, res) => {
   try {
+    const userId = req.user._id
     const _id = req.params.record_id
-    const record = await Record.findOne({ _id }).lean()
+    const record = await Record.findOne({ _id, userId }).lean()
     const category = await Category.findOne({ _id: record.categoryId })
     record.date = moment(record.date).format('YYYY-MM-DD')
     res.render('edit', { record, category: category.name })
@@ -60,6 +63,7 @@ router.get('/:record_id/edit', async (req, res) => {
 // 編輯record
 router.put('/:record_id', async (req, res) => {
   try {
+    const userId = req.user._id
     const _id = req.params.record_id
     const { name, date, categoryName, amount } = req.body
     const errors = []
@@ -68,7 +72,7 @@ router.put('/:record_id', async (req, res) => {
       return res.render('new', { name, date, categoryName, amount, errors })
     }
     const category = await Category.findOne({ name: categoryName }).lean()
-    await Record.updateOne({ _id }, {
+    await Record.updateOne({ _id, userId }, {
       name,
       date,
       categoryId: category._id,
@@ -84,8 +88,9 @@ router.put('/:record_id', async (req, res) => {
 // 刪除record
 router.delete('/:record_id', async (req, res) => {
   try {
+    const userId = req.user._id
     const _id = req.params.record_id
-    await Record.deleteOne({ _id })
+    await Record.deleteOne({ _id, userId })
     res.redirect('/')
   }
   catch (error) {
@@ -96,11 +101,12 @@ router.delete('/:record_id', async (req, res) => {
 // 類別篩選
 router.post('/filter', async (req, res) => {
   try {
+    const userId = req.user._id
     const categoryId = req.body.filter
     if (!categoryId) return res.redirect('/')
     
     const category = await Category.findOne({ _id: categoryId }).lean()
-    const records = await Record.find({ categoryId }).lean().sort({ date: 'asc' })
+    const records = await Record.find({ categoryId, userId }).lean().sort({ date: 'asc' })
     for (const record of records) {
       record.img = category.image
       record.date = moment(record.date).format('YYYY/MM/DD')
