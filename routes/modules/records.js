@@ -22,13 +22,19 @@ router.get('/new', (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { name, date, category, amount } = req.body
+    const { name, date, categoryName, amount } = req.body
     const errors = []
-    if (!name || !date || !category || !amount) {
+    if (!name || !date || !categoryName || !amount) {
       errors.push({ message: '每個欄位都必須輸入'})
-      return res.render('new', { name, date, category, amount, errors })
+      return res.render('new', { name, date, categoryName, amount, errors })
     }
-    await Record.create({ name, date, category, amount })
+    const category = await Category.findOne({ name: categoryName }).lean()
+    await Record.create({
+      name,
+      date,
+      categoryId: category._id,
+      amount
+    })
     res.redirect('/')
   }
   catch (error) {
