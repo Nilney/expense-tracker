@@ -12,7 +12,7 @@ router.get('/login', (req, res) => {
 router.post('/login',
   (req, res, next )=> {
     const {email, password } = req.body
-    if (!email || !passport) {
+    if (!email || !password) {
       req.flash('login_err', '請輸入 Email 與 Password')
       return res.redirect('/users/login')
     }
