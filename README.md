@@ -39,10 +39,10 @@
   ```
   $ npm run seed
   ```
-    | User | Email             | Password |
-    | :---:| :---------------: | :------: |
-    | 廣志 | user1@example.com | 12345678 |
-    | 小新 | user2@example.com | 12345678 |
+| User | Email             | Password |
+| :---:| :---------------: | :------: |
+| 廣志 | user1@example.com | 12345678 |
+| 小新 | user2@example.com | 12345678 |
 7. 輸入以下指令以啟動本專案
   ```
   $ npm run start
