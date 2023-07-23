@@ -10,13 +10,14 @@ if (process.env.NODE_ENV !== 'production') {
 
 const routes = require('./routes')
 const usePassport = require('./config/passport')
+const hbsHelper = require('./utils/hbsHelper')
 
 require('./config/mongoose')
 
 const app = express()
 const PORT = process.env.PORT
 
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.engine('hbs', exphbs({ helpers: hbsHelper, defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
 app.use(session({
