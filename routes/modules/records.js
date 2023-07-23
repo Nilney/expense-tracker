@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
 })
 
 // 編輯頁面
-router.get('/:record_id/edit', async (req, res) => {
+router.get('/:record_id', async (req, res) => {
   try {
     const userId = req.user._id
     const _id = req.params.record_id

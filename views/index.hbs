@@ -45,7 +45,7 @@
             {{{this.amount}}}
           </div>
           <div class="col-md-3 d-flex justify-content-center">
-            <a href="/records/{{this._id}}/edit" class="btn btn-success mx-1">修改</a>
+            <a href="/records/{{this._id}}" class="btn btn-success mx-1">修改</a>
             <form action="/records/{{this._id}}?_method=DELETE" method="POST" id="deleteForm-{{this._id}}">
               <button class="btn btn-danger mx-1 deleteButton" type="submit" data-id="{{this._id}}">刪除</button>
             </form>
